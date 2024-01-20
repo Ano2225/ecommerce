@@ -8,6 +8,7 @@ type CartContextType = {
     cartTotalQty: number;
     cartProducts: CartProductType[] | null;
     handleAddProductToCart: (product: CartProductType) => void;
+    handleRemoveProductFromCart: (product: CartProductType) => void;
 }
 
 export const CartContext = createContext<CartContextType | null>(null);
@@ -26,8 +27,9 @@ export const CartContextProvider = (props: Props) => {
 
         setCartProducts(cProducts)
     }, [])
-    
+
     const isToastDisplayed = useRef(false);
+    const isToastDisplayedRemove = useRef(false);
 
    const handleAddProductToCart = useCallback((product: CartProductType) => {
         setCartProducts((prev) => {
@@ -44,16 +46,39 @@ export const CartContextProvider = (props: Props) => {
                 isToastDisplayed.current = true;
             }
 
+
+
             localStorage.setItem('eShopCartItems', JSON.stringify(updateCart));
             return updateCart;
         });
     }, []);
+
+    const handleRemoveProductFromCart = useCallback((product: CartProductType) => {
+        if(cartProducts) {
+            const filteredProducts = cartProducts.filter((item) => {
+                return item.id !== product.id
+            })
+
+            setCartProducts(filteredProducts);
+            
+            if (!isToastDisplayedRemove.current) {
+                toast.success('Article supprimé  ');
+                isToastDisplayedRemove.current = true;
+                isToastDisplayed.current = false;
+
+            }
+            isToastDisplayedRemove.current = false;
+
+            localStorage.setItem('eShopCartItems', JSON.stringify(filteredProducts));
+        }
+    }, [cartProducts])
 
 
     const value = {
         cartTotalQty,
         cartProducts,
         handleAddProductToCart,
+        handleRemoveProductFromCart
         
     }
 
