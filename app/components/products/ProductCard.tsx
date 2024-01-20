@@ -5,7 +5,9 @@ import Image from "next/image"
 import { truncateText } from "@/utils/truncateTexts"
 import { formatPrice } from "@/utils/formatPrice"
 import {Rating} from '@mui/material'
+import { useRouter } from "next/navigation"
 
+// Declarer le type des donnees à afficher
 interface ProductCardProps {
     data: any
 }
@@ -13,12 +15,16 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({data}) => {
 
+  //Rediriger vers une autre page
+  const router = useRouter();
+
   const productRating =
    data.reviews.reduce((acc: number,item:any) => 
   item.rating + acc, 0) / data.reviews.length
 
   return (
-    <div className="col-span-1
+    <div onClick={() => router.push(`/product/${data.id}`)}
+    className="col-span-1
     cursor-pointer
     border-[1.2px]
     border-slate-200
