@@ -4,8 +4,11 @@ import Button from "@/app/components/Button";
 import ProductImage from "@/app/components/products/ProductImage";
 import SetColor from "@/app/components/products/SetColor";
 import SetQuantity from "@/app/components/products/SetQuantity";
+import { useCart } from "@/hooks/useCart";
 import { Rating } from "@mui/material";
-import { useCallback, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
+import { MdCheckCircle } from "react-icons/md";
 
 interface ProductDetailsProps {
     product: any
@@ -22,6 +25,7 @@ export type CartProductType = {
     price: number
 }
 
+
 export type selectedImgType = {
     color: string,
     colorCode: string,
@@ -29,10 +33,13 @@ export type selectedImgType = {
 }
 
 const Horizontal = ()=> {
-    return <hr className="w-[30%] my-2]"/>
+    return <hr className="w-[30%] my-2"/>
 }
 
 const ProductDetails: React.FC<ProductDetailsProps> = ({product}) => {
+
+    const {handleAddProductToCart, cartProducts} = useCart();
+    const [isProductInCart, setIsProductInCart] = useState(false);
 
     const [CartProduct, setCartProduct] = 
     useState<CartProductType>({
@@ -46,7 +53,22 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({product}) => {
         price: product.price
     });
 
-    console.log(CartProduct)
+    console.log(cartProducts)
+
+    const router = useRouter();
+
+    //Declaration de UseEffect pour eviter de dupliquer le contenu ajouté au panier
+    useEffect(() => {
+        setIsProductInCart(false);
+
+        if(cartProducts) {
+            const existingIndex = cartProducts.findIndex((item) => item.id === product.id)
+
+            if(existingIndex > -1) {
+                setIsProductInCart(true);
+            }
+        }
+    }, [cartProducts])
 
     const productRating =
     product.reviews.reduce((acc: number,item:any) => 
@@ -109,25 +131,42 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({product}) => {
              </div>
              <div className={product.inStock ? "text-teal-400": "text-rose-400"}>{product.inStock ? "En stock":"Non disponible"}</div>
              <Horizontal/>
-             <SetColor
-              cartProduct={CartProduct}
-              images={product.images}
-              handleColorSelect={handleColorSelect}
+             {isProductInCart ?(
+             <>
+                <p className="mb-2 text-slate-500 flex items-center gap-1">
+                    <MdCheckCircle className="text-teal-400" size={20}/>
+                    <span>Articlé ajouté au panier </span>
+                </p>
+                <div className="max-w-[300px]">
+                    <Button
+                     label="Voir panier"
+                     outline
+                     onClick={() => {router.push('/cart')}}
+                     />
+                </div>
+             </> ):( <>
+                <SetColor
+                cartProduct={CartProduct}
+                images={product.images}
+                handleColorSelect={handleColorSelect}
 
-             />
-             <Horizontal/>
-             <SetQuantity 
-             cartProduct={CartProduct}
-             handleQtyIncrease={handleQtyIncrease}
-             handleQtyDecrease={handleQtyDecrease}
-             />
-             <Horizontal/>
-             <div className="max-w-[300px]">
-                <Button
-                label="Ajouter au panier"
-                onClick={() => {}}
                 />
-             </div>
+                <Horizontal/>
+                <SetQuantity 
+                cartProduct={CartProduct}
+                handleQtyIncrease={handleQtyIncrease}
+                handleQtyDecrease={handleQtyDecrease}
+                />
+                <Horizontal/>
+                <div className="max-w-[300px]">
+                    <Button
+                    label="Ajouter au panier"
+                    onClick={() => handleAddProductToCart(CartProduct)}
+                    />
+                </div>
+             </>
+             )}
+            
 
         </div>
     </div>
