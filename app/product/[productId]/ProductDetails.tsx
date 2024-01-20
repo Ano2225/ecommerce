@@ -1,6 +1,8 @@
 'use client';
 
+import Button from "@/app/components/Button";
 import SetColor from "@/app/components/products/SetColor";
+import SetQuantity from "@/app/components/products/SetQuantity";
 import { Rating } from "@mui/material";
 import { useCallback, useState } from "react";
 
@@ -54,7 +56,26 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({product}) => {
             setCartProduct((prev)=> {
                 return {...prev, selectedImg: value}
             })
-         }, [CartProduct.selectedImg])
+         }, [CartProduct.selectedImg]);
+
+    const handleQtyIncrease = useCallback(() => {
+        if(CartProduct.quantity === 99) {
+            return;
+        }
+        setCartProduct((prev) => {
+            return {...prev, quantity: prev.quantity + 1};
+        });
+    }, [CartProduct]);
+
+    const handleQtyDecrease = useCallback(() => {
+        if(CartProduct.quantity === 1) {
+            return;
+        }
+        setCartProduct((prev) => {
+            return {...prev, quantity: prev.quantity - 1};
+        });
+    }, [CartProduct]);
+
 
   return (
     <div 
@@ -91,9 +112,18 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({product}) => {
 
              />
              <Horizontal/>
-             <div>Quantité</div>
+             <SetQuantity 
+             cartProduct={CartProduct}
+             handleQtyIncrease={handleQtyIncrease}
+             handleQtyDecrease={handleQtyDecrease}
+             />
              <Horizontal/>
-             <div>Ajouter au panier</div>
+             <div className="max-w-[300px]">
+                <Button
+                label="Ajouter au panier"
+                onClick={() => {}}
+                />
+             </div>
 
         </div>
     </div>
