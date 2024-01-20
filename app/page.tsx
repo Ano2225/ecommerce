@@ -1,5 +1,5 @@
-import Container from "./Container";
-import HomeBanner from "./HomeBanner";
+import Container from "./components/Container";
+import HomeBanner from "./components/HomeBanner";
 import {products} from "../utils/products"
 import { truncateText } from "@/utils/truncateTexts";
 import ProductCard from "./components/products/ProductCard";

@@ -1,4 +1,4 @@
-import Container from "@/app/Container"
+import Container from "@/app/components/Container"
 import FooterList from "./FooterList"
 import Link from "next/link"
 import {MdFacebook} from 'react-icons/md'
