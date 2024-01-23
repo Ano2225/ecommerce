@@ -6,13 +6,14 @@ import Image from "next/image";
 import SetQuantity from "../components/products/SetQuantity";
 import { useCart } from "@/hooks/useCart";
 
+
 interface ItemContentProps {
     item: CartProductType;
 }
 
 const ItemContent: React.FC<ItemContentProps> = ({ item }) => {
 
-    const {handleRemoveProductFromCart} = useCart();
+    const {handleRemoveProductFromCart , handleCartQtyIncrease} = useCart();
 
     return (
         <div className="grid grid-cols-5 text-xs md:text-sm gap-4 border-t-[1.5px] border-slate-200 py-4 items-center">
@@ -43,11 +44,11 @@ const ItemContent: React.FC<ItemContentProps> = ({ item }) => {
             <div className="justify-self-center">{formatPrice(item.price)}</div>
 
             {/* Colonne pour la quantité */}
-            <div className="justify-self-end">
+            <div className="justify-self-center">
                 <SetQuantity
                     cartCounter={true}
                     cartProduct={item}
-                    handleQtyIncrease={() => {}}
+                    handleQtyIncrease={() => handleCartQtyIncrease(item)}
                     handleQtyDecrease={() => {}}
                 />
             </div>
