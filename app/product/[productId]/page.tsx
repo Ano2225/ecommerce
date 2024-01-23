@@ -3,13 +3,15 @@ interface IPrams {
 }
 
 import Container from "@/app/components/Container"
-import { product } from "@/utils/product"
 import ProductDetails from "./ProductDetails"
 import ListRating from "./ListRating"
+import { products } from "@/utils/products"
 
 
 const Product = ({params} : {params: IPrams}) => {
     console.log("params :", params)
+
+    const product = products.find((item) => item.id === params.productId);
   return (
     <div className="p-8">
      <Container>

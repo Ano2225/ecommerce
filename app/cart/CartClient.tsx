@@ -8,7 +8,7 @@ import Button from "../components/Button";
 import ItemContent from "./ItemContent";
 
 const CartClient = () => {
-    const {cartProducts} = useCart();
+    const {cartProducts, handleClearCart} = useCart();
 
     if(!cartProducts || cartProducts.length === 0) {
         return (
@@ -53,7 +53,7 @@ const CartClient = () => {
        ">
         <div className="w-[90px]">
             <Button label="Vider"
-            onClick={() => {}}
+            onClick={() => {handleClearCart()}}
             small outline
             />
         </div>
