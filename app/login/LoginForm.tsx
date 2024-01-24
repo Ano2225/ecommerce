@@ -70,7 +70,7 @@ const LoginForm: React.FC<LoginFormProps> = ({currentUser}) => {
         <Heading  title="Se connecter"/>
         <Button  outline
         label="Continuez avec Google"
-        onClick={() => {}}
+        onClick={() => {signIn('google')}}
         />
         <hr className="bg-slate-300 w-full h-px"/>
         <Input id="email" 
