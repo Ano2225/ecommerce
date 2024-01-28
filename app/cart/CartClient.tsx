@@ -7,9 +7,19 @@ import Heading from "../components/Heading";
 import Button from "../components/Button";
 import ItemContent from "./ItemContent";
 import { formatPrice } from "@/utils/formatPrice";
+import { Router } from "next/router";
+import { useRouter } from "next/navigation";
+import { SafeUser } from "@/types";
 
-const CartClient = () => {
+interface CartClientProps{
+    currentUser: SafeUser | null;
+}
+
+const CartClient: React.FC<CartClientProps> = ({currentUser}) => {
+
     const {cartProducts, handleClearCart, cartTotalAmount} = useCart();
+    const router = useRouter();
+
 
     if(!cartProducts || cartProducts.length === 0) {
         return (
@@ -24,6 +34,7 @@ const CartClient = () => {
             </div>
         )
     }
+
   return (
     <div>
       <Heading title="Mon Panier" center />
@@ -64,7 +75,10 @@ const CartClient = () => {
                 <span>{formatPrice(cartTotalAmount)}</span>
             </div>
             <p className="text-slate-500">Taxes et frais d&apos;expédition calculés à la caisse</p>
-            <Button label="Payer" onClick={() => {}}/>
+            <Button label={currentUser ? "Payer":"Connectez vous et payer"} 
+            onClick={() => { currentUser ? router.push('/checkout') : router.push('/login') }}
+            outline={currentUser ? false : true }
+            />
             <Link href={"/"} className="text-slate-500 flex items-center gap-1 mt-2">
                 <MdArrowBack />
                 <span>Continuez vos courses</span>

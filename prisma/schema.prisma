@@ -48,14 +48,17 @@ model Order {
   status            String
   deliveryStatus    String?
   createDate        DateTime        @default(now())
-  payementIntentId  String          @unique
   products          CartProductType[]
-  address           Address?
-  adminValidation Boolean @default(false)
-
+  address           String?
+  adminValidation   Boolean         @default(false)
+  adminDepositNumber String?        
+  userDepositNumber  String?        
+  userPhoneNumber    String? 
+  
 
   user  User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
+
 
 type CartProductType {
     id String
@@ -73,12 +76,6 @@ type Image {
   color String
   colorCode String
   image String
-}
-
-type Address {
-  city String
-  line1 String
-
 }
 
 enum Role {
