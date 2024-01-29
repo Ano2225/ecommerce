@@ -48,7 +48,6 @@ const CheckOutClient: React.FC<CheckOutClientProps> = ({ currentUser: initialUse
 
   // Fonction pour soumettre le formulaire
   const onSubmit = async (data) => {
-    console.log('data', data);
     try {
       setLoading(true);
 
