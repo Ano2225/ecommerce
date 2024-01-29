@@ -3,8 +3,7 @@ import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import prisma from "@/libs/prismadb";
-import bcrypt from "bcrypt";
-
+import bcrypt from 'bcryptjs'
 
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -22,7 +21,7 @@ export const authOptions: AuthOptions = {
       async authorize(credentials) {
         try {
           if (!credentials?.email || !credentials.password) {
-            throw new Error("Invalid email or password");
+            throw new Error("Email ou mot de passe invalide !");
           }
 
           const user = await prisma.user.findUnique({
@@ -32,7 +31,7 @@ export const authOptions: AuthOptions = {
           });
 
           if (!user || !user?.hashedPassword) {
-            throw new Error("Invalid email or password");
+            throw new Error("Email ou mot de passe invalide !");
           }
 
           const isCorrectPassword = await bcrypt.compare(
@@ -41,13 +40,13 @@ export const authOptions: AuthOptions = {
           );
 
           if (!isCorrectPassword) {
-            throw new Error("Invalid email or password");
+            throw new Error("Email invalide ou mot de passe invalide");
           }
 
           return user;
         } catch (error) {
           console.error("Authorization error:", error);
-          throw new Error("Authentication failed");
+          throw new Error("Authentication echouée");
         }
       },
     }),

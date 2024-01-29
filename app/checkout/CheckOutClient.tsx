@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import { useCart } from "@/hooks/useCart";
 import { useRouter } from "next/navigation";
@@ -9,26 +9,62 @@ import Heading from "../components/Heading";
 import Button from "../components/Button";
 import Image from "next/image";
 import { formatPrice } from "@/utils/formatPrice";
+import { SafeUser } from "@/types";
+import { getCurrentUser } from "@/actions/getCurrentUser";
 
-const CheckOutClient = () => {
-  const { cartProducts } = useCart();
+interface CheckOutClientProps {
+  currentUser: SafeUser | null;
+}
+
+const CheckOutClient: React.FC<CheckOutClientProps> = ({ currentUser: initialUser }) => {
+  const { cartProducts, cartTotalAmount } = useCart();
+  const [user, setUser] = useState(initialUser);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [paymentRequestSend, setPaymentRequestSend] = useState(false);
-  const { cartTotalAmount } = useCart();
+  const [paymentRequestSend, setPaymentRequestSend] = useState(false); // Ajout de l'état
   const formattedPrice = formatPrice(cartTotalAmount);
-
   const router = useRouter();
 
+  //Permet d'utiliser les hook forms
   const { register, handleSubmit, formState: { errors } } = useForm();
 
-  
 
+  // Utiliser le useEffect pour exécuter fetchUserData lors du montage du composant
+  useEffect(() => {
+    if (!user) {
+      fetchUserData();
+    }
+  }, [user]);
+
+  // Fonction pour récupérer les informations de l'utilisateur
+  const fetchUserData = async () => {
+    try {
+      const userData = await getCurrentUser();
+      setUser(userData);
+    } catch (error) {
+      console.error('Erreur lors de la récupération des informations de l\'utilisateur :', error);
+    }
+  };
+
+  // Fonction pour soumettre le formulaire
   const onSubmit = async (data) => {
     console.log('data', data);
     try {
       setLoading(true);
 
+      // Récupérer les informations de l'utilisateur
+      const currentUser = await getCurrentUser();
+      let id_user: string | undefined;
+
+      if (currentUser) {
+        id_user = currentUser.id;
+        console.log('UserId', id_user);
+      } else {
+        console.error('Unauthorized: No current user');
+        return router.push('/login');
+      }
+
+      // Faire la requête vers l'API de paiement
       const response = await fetch('api/payement/routes', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -38,24 +74,32 @@ const CheckOutClient = () => {
           userDepositNumber: data.userDepositNumber,
           userPhoneNumber: data.userPhoneNumber,
           address: data.address,
+          userId: id_user,
         }),
       });
 
       setLoading(false);
 
+      // Gérer la réponse de l'API
       if (response.status === 401) {
+        console.error('Erreur 401: Non autorisé');
         return router.push('/login');
       }
 
-      const responseData = await response.json();
+      if (currentUser) {
+        const responseData = await response.json();
 
-      if (responseData.success) {
-        setPaymentRequestSend(true);
+        if (responseData.success) {
+          setPaymentRequestSend(true);
+        } else {
+          // Gérer d'autres cas d'erreur spécifiques si nécessaire
+          throw new Error('Soumission échouée');
+        }
       } else {
-        throw new Error('Soumission echouée');
+        console.log('No CurrentUser');
       }
     } catch (error) {
-      console.error('Error lors de soumission:', error);
+      console.error('Erreur lors de la soumission :', error);
       setError(true);
     }
   };
@@ -180,7 +224,6 @@ const CheckOutClient = () => {
         <div className="flex items-center flex-col gap-4">
           <div className="text-teal-500 text-center"> Paiement en cours, vous serez contacté une fois la commande validée </div>
           <div className="max-w-[220px] w-full">
-            <Button label="Voir vos commandes" onClick={() => router.push('/order')} />
           </div>
         </div>
       )}

@@ -1,11 +1,7 @@
-
-import Container from "../components/Container"
-import FormWrap from "../components/FormWrap"
+import Container from "../components/Container";
+import FormWrap from "../components/FormWrap";
 import CheckOutClient from '../checkout/CheckOutClient';
 import { getCurrentUser } from "@/actions/getCurrentUser";
-
-
-
 
 const CheckOut = async () => {
 
@@ -13,13 +9,15 @@ const CheckOut = async () => {
 
   return (
     <div className="p-8">
-        <Container>
-            <FormWrap>
-                <CheckOutClient />
-            </FormWrap>
-        </Container>
+      <Container>
+        <FormWrap>
+          <CheckOutClient currentUser={currentUser} />
+        </FormWrap>
+      </Container>
     </div>
-  )
-}
+  );
+};
 
-export default CheckOut
+
+
+export default CheckOut;
