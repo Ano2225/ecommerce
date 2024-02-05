@@ -9,7 +9,6 @@ generator client {
 
 model Account {
   id                 String  @id @default(auto()) @map("_id") @db.ObjectId
-  userId             String @db.ObjectId
   type               String
   provider           String
   providerAccountId  String
@@ -21,7 +20,7 @@ model Account {
   id_token           String?  @db.String
   session_state      String?
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [id], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -42,31 +41,28 @@ model User {
 
 model Order {
   id                String          @id @default(auto()) @map("_id") @db.ObjectId
-  userId            String          @db.ObjectId
-  amount            Float
+  amount            String
   currency          String
   status            String
-  deliveryStatus    String?
-  createDate        DateTime        @default(now())
+  deliveryStatus    String
+  createDate        DateTime?        @default(now())
   products          CartProductType[]
   address           String?
-  adminValidation   Boolean         @default(false)
+  adminValidation   Boolean?         @default(false)
   adminDepositNumber String?        
   userDepositNumber  String?        
   userPhoneNumber    String? 
-  
-
-  user  User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user  User @relation(fields: [id], references: [id], onDelete: Cascade)
 }
 
 
 type CartProductType {
-    id String
+    id String 
     name String
     description String
     category String
     brand String
-    selectedImgselectedImg Image
+    selectedImg Image
     quantity Int
     price Float
 }
