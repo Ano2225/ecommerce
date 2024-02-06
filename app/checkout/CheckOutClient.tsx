@@ -10,6 +10,7 @@
   import Image from "next/image";
   import { formatPrice } from "@/utils/formatPrice";
   import { SafeUser } from "@/types";
+import toast from "react-hot-toast";
   
 
   interface CheckOutClientProps {
@@ -25,11 +26,12 @@
   }
 
   const CheckOutClient: React.FC<CheckOutClientProps> = ({ currentUser }) => {
-    const { cartProducts, cartTotalAmount } = useCart();
+    const { cartProducts, cartTotalAmount , handleClearCart} = useCart();
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [paymentRequestSend, setPaymentRequestSend] = useState(false); // Ajout de l'état
+    const [paymentRequestSend, setPaymentRequestSend] = useState(false); 
     const formattedPrice = formatPrice(cartTotalAmount);
+    
     const router = useRouter();
 
     //Permet d'utiliser les hook forms
@@ -38,8 +40,6 @@
 
     // Fonction pour soumettre le formulaire
     const onSubmit: SubmitHandler<FieldForms> = async (data) => {
-      console.log(data);
-      console.log(cartProducts)
 
       try {
         setLoading(true);
@@ -51,8 +51,6 @@
         }
         // Récupérer l'ID de l'utilisateur connecté
         const id_user = currentUser.id;
-        console.log('UserId', id_user);
-
         
 
         //Preparer les donnees à envoyer à l'API
@@ -66,7 +64,7 @@
           amount: formattedPrice
 
         };
-
+        
 
         //Envoi des donnees à l'API
         const response = await fetch('api/payement/routes',{
@@ -82,7 +80,11 @@
           console.log(responseData)
 
           if(responseData) {
+            toast.success('Donnée de paiement envoyé')
             setPaymentRequestSend(true);
+            handleClearCart();
+            setLoading(false)
+            
           }else {
             throw new Error('Failed to submit payment')
           }
@@ -94,11 +96,21 @@
         setLoading(false);
       }
     };
+    
 
 
     return (
       <Container>
-        {cartProducts && (
+    {paymentRequestSend ? (
+        <div className="flex items-center flex-col gap-4">
+        <div className="text-teal-500 text-center"> Paiement en cours, vous serez contacté une fois la commande validée </div>
+        <div className="max-w-[220px] w-full">
+          <Button label="Voir vos commandes" onClick={() => router.push('/order')} />
+        </div>
+      </div>
+    ) :
+    <>
+      {cartProducts && (
           <form onSubmit={handleSubmit(onSubmit)} id="payment-form" className="max-w-md mx-auto">
             <Heading title="Passez votre commande" />
 
@@ -150,7 +162,8 @@
                 Numéro sur lequel vous avez effectué le depot
               </label>
               <input
-                {...register("adminDepositNumber", { required: true })}
+                {...register("adminDepositNumber", { required: true, maxLength:10,
+                  pattern: /^[0-9]*$/, })}
                 className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring focus:border-teal-500"
               />
               {errors.adminDepositNumber && (
@@ -163,8 +176,10 @@
                 Numéro ayant effectué le dépôt
               </label>
               <input
-                {...register("userDepositNumber", { required: true })}
+                {...register("userDepositNumber", { required: true,maxLength:10,
+                  pattern: /^[0-9]*$/ })}
                 className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring focus:border-teal-500"
+                
               />
               {errors.userDepositNumber && (
                 <span className="text-red-500 text-sm">Ce champ est requis</span>
@@ -176,7 +191,10 @@
                 Le numéro de téléphone à contacter (si paiement validé pour la livraison)
               </label>
               <input
-                {...register("userPhoneNumber", { required: true })}
+                {...register("userPhoneNumber", { required: true,
+                   maxLength:10,
+                   pattern: /^[0-9]*$/,
+                   })}
                 className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring focus:border-teal-500"
               />
               {errors.userPhoneNumber && (
@@ -208,13 +226,11 @@
         )}
         {loading && <div className="text-center"> Page de paiement en cours de chargement...</div>}
         {error && (<div className="text-center text-red-500"> Something went wrong... </div>)}
-        {paymentRequestSend && (
-          <div className="flex items-center flex-col gap-4">
-            <div className="text-teal-500 text-center"> Paiement en cours, vous serez contacté une fois la commande validée </div>
-            <div className="max-w-[220px] w-full">
-            </div>
-          </div>
-        )}
+    </>
+  }
+  
+       
+        
       </Container>
     );
   };
