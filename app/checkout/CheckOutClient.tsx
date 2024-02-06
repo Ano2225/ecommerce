@@ -152,9 +152,7 @@ import toast from "react-hot-toast";
 
             <h2 className="font-semibold mt-4 mb-2 text-lg">Informations de paiement</h2>
 
-            <div className="py-4 text-center text-gray-800 text-xl font-bold">
-              Total à payer : {formattedPrice}
-            </div>
+           
             <div>
             </div>
             <div className="mb-4">
@@ -214,6 +212,10 @@ import toast from "react-hot-toast";
                 <span className="text-red-500 text-sm">Ce champ est requis</span>
               )}
             </div>
+            <div className="py-4 text-center text-gray-800 text-xl font-bold">
+              Total à payer : {formattedPrice}
+            </div>
+            <p className="py-2 font-medium text-gray-600">*Livraison offerte</p>
 
             <Button
               label={loading ? 'Traitement' : 'Payer'}
