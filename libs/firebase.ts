@@ -5,12 +5,12 @@ import { initializeApp } from "firebase/app";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyAcOgf7IzTyqtB-VvOZSabCHPPmps9I9Uo",
-  authDomain: "owen-market-vid.firebaseapp.com",
-  projectId: "owen-market-vid",
-  storageBucket: "owen-market-vid.appspot.com",
-  messagingSenderId: "1042520720572",
-  appId: "1:1042520720572:web:903586dbfd4a463a9fbcb9"
+  apiKey: "AIzaSyAMgsSPmKjPZdG3XU9E0iC1i1xwBEWcHY8",
+  authDomain: "owen-market-30c68.firebaseapp.com",
+  projectId: "owen-market-30c68",
+  storageBucket: "owen-market-30c68.appspot.com",
+  messagingSenderId: "382207896925",
+  appId: "1:382207896925:web:5e3500d071274a8d084cb4"
 };
 
 // Initialize Firebase

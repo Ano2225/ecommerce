@@ -1,36 +1,31 @@
+
 import prisma from '@/libs/prismadb';
-import { NextResponse } from 'next/server';
-import { getCurrentUser } from '@/actions/getCurrentUser';
+import { NextApiRequest, NextApiResponse } from 'next';
 
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+    if (req.method === 'POST') {
+       
+        try {
+            const { name, price, brand, description, inStock, category, images } = req.body;
 
-export async function POST(request: Request) {
-    const currentUser = await getCurrentUser();
+            const product = await prisma.product.create({
+                data: {
+                    name,
+                    description,
+                    brand,
+                    category,
+                    inStock,
+                    images,
+                    price: parseFloat(price)
+                }
+            });
 
-    if(!currentUser || currentUser.role != 'ADMIN') {
-        return NextResponse.error()
-    }
-
-    const body = await request.json();
-    const {name, 
-        description,
-         price,
-          brand,
-           category, 
-           inStock, 
-           images } = body;
-
-    const product = await prisma.product.create({
-        data: {
-            name,
-            description,
-            brand,
-            category,
-            inStock,
-            images,
-            price: parseFloat(price)
+            return res.status(201).json(product);
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ error: 'Internal Server Error' });
         }
-    });
-
-    return NextResponse.json(product)
-
+    } else {
+        return res.status(405).json({ error: 'Method Not Allowed' });
+    }
 }

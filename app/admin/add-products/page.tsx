@@ -14,7 +14,7 @@ const AddProducts = async () => {
         <div className="p-8">
            <Container>
             <FormWrap>
-                <AddProductForm/>
+                <AddProductForm currentUser={currentUser}/>
             </FormWrap>
            </Container>
         </div>

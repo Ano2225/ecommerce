@@ -46,6 +46,7 @@ model Product {
   description String
   price       Float
   brand       String
+  category    String
   inStock     Boolean
   images       Image[]
   reviews     Review[]
