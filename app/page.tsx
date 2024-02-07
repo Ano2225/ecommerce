@@ -3,9 +3,31 @@ import HomeBanner from "./components/HomeBanner";
 import {products} from "../utils/products"
 import { truncateText } from "@/utils/truncateTexts";
 import ProductCard from "./components/products/ProductCard";
+import getProducts, { IProductParams } from "@/actions/getProduct";
+import NullData from "./components/NullData";
 
+interface HomeProps {
+  searchParams: IProductParams
+}
 
-export default function Home() {
+export default async function Home({searchParams}: HomeProps) {
+  const products = await getProducts(searchParams)
+
+  if(products.length === 0) {
+    return <NullData title={"Ooops ! Pas d'article trouvés ."} />
+  }
+
+  function shuffleArray(array: any) {
+    for(let i = array.length -1; i> 0; i--){
+      const j = Math.floor(Math.random() *(i+1));
+      [array[i], array[j]] = [array[j], array[i]]
+    }
+
+    return array
+  }
+
+  const shuffledProducts = shuffleArray(products)
+
   return (
    <div>
     <Container>
@@ -18,7 +40,7 @@ export default function Home() {
        xl:grid-cols-5 
        2xl:grid-cols-6
         gap-8">
-          {products.map((product: any) => {
+          {shuffledProducts.map((product: any) => {
             return <ProductCard key={product.id} data={product}/>
           })}
       </div>

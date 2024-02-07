@@ -16,7 +16,7 @@ import moment from 'moment';
 import 'moment/locale/fr';
 
 
-interface ManageOrdersClientProps {
+interface OrdersClientProps {
     orders: ExtendedOrder[]
 }
 
@@ -24,7 +24,7 @@ type ExtendedOrder = Order & {
   user: User
 }
 
-const ManageOrdersClient: React.FC<ManageOrdersClientProps> = ({orders}) => {
+const OrdersClient: React.FC<OrdersClientProps> = ({orders}) => {
     const router = useRouter();
 
   
@@ -145,14 +145,12 @@ const ManageOrdersClient: React.FC<ManageOrdersClientProps> = ({orders}) => {
         {
             field: "action",
             headerName: "Actions",
-            width: 200,
+            width: 130,
             renderCell: (params) => {
                 return (
                     <div
                         className='flex justify-between gap-4 w-full'
                     >
-                        <ActionBtn icon={MdDone} onClick={() => handlePayment(params.row.id)} />
-                        <ActionBtn icon={MdDeliveryDining} onClick={() => handleDeliver(params.row.id)} />
                         <ActionBtn icon={MdRemoveRedEye} onClick={() => 
                           { router.push(`/order/${params.row.id}`) }} />
                     </div>
@@ -161,37 +159,13 @@ const ManageOrdersClient: React.FC<ManageOrdersClientProps> = ({orders}) => {
         }
     ];
     
-  const handleDeliver = useCallback((id: string) => {
-      axios.put('/api/order/route', {
-          id,
-          deliveryStatus:'Livré'  })
-          .then((res) => {
-          toast.success('Commande livrée ');
-          router.refresh();
-      }).catch((err) => {
-          toast.error('Oops! Quelque chose s\'est mal passée')
-          console.log(err);
-      });
-  },[])
 
-  const handlePayment = useCallback((id: string) => {
-      axios.put('/api/order/route', {
-          id,
-          paymentStatus:'Payé'})
-          .then((res) => {
-          toast.success('Paiement reçu')
-          router.refresh();
-      }).catch((err) => {
-          toast.error('Oops! Quelque chose s\'est mal passée')
-          console.log(err);
-      });
-  },[])
 
 
   return (
    <div className='max-w-[1150px] m-auto text-xl'>
     <div className='mb-4 mt-8'>
-        <Heading  title='Gerer les commandes' center/>
+        <Heading  title='Mes commandes' center/>
     </div>
     <div style={{height:600, width: "100%" }}>
         <DataGrid
@@ -211,4 +185,4 @@ const ManageOrdersClient: React.FC<ManageOrdersClientProps> = ({orders}) => {
   )
 }
 
-export default ManageOrdersClient
+export default OrdersClient
