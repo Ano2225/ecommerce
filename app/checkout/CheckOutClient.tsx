@@ -2,7 +2,7 @@
 
   import { useCart } from "@/hooks/useCart";
   import { useRouter } from "next/navigation";
-  import { useEffect, useState } from "react";
+  import { useState } from "react";
   import { useForm , SubmitHandler } from "react-hook-form";
   import Container from "../components/Container";
   import Heading from "../components/Heading";

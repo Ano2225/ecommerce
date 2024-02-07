@@ -4,7 +4,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === 'POST') {
-       
+
         try {
             const { name, price, brand, description, inStock, category, images } = req.body;
 
@@ -25,7 +25,27 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             console.error(error);
             return res.status(500).json({ error: 'Internal Server Error' });
         }
-    } else {
+    }else if(req.method === "PUT"){
+      try{
+            const {id, inStock} = req.body;
+
+            const product = await prisma.product.update({
+            where: {id: id},
+            data: {inStock},
+
+        });
+
+        return res.status(200).json(product)
+      }catch(error) {
+        console.error(error);
+        return res.status(500).json({error: 'Internet Server Error'})
+      }
+
+
+    }
+     else {
         return res.status(405).json({ error: 'Method Not Allowed' });
     }
 }
+
+
