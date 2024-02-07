@@ -31,7 +31,7 @@ const CODE_PREFIX = 'COM';
 
           const orderData = {
 
-            amount: amount,
+            amount: parseFloat(amount),
             currency: 'XOF',
             status: 'En attente',
             deliveryStatus: 'En attente',

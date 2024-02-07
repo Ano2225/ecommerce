@@ -67,7 +67,7 @@ model Review {
 
 model Order {
   id                String    @id @default(auto()) @map("_id") @db.ObjectId
-  amount            String
+  amount            Float
   currency          String
   status            String
   deliveryStatus    String

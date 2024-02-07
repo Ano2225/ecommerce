@@ -79,7 +79,7 @@ import toast from "react-hot-toast";
           const responseData = await response.json();
           console.log(responseData)
 
-          if(responseData) {
+          if(responseData.adminValidation == false) {
             toast.success('Donnée de paiement envoyé')
             setPaymentRequestSend(true);
             handleClearCart();
@@ -227,7 +227,7 @@ import toast from "react-hot-toast";
           <p className="text-red-500 text-center">Rien dans le panier</p>
         )}
         {loading && <div className="text-center"> Page de paiement en cours de chargement...</div>}
-        {error && (<div className="text-center text-red-500"> Something went wrong... </div>)}
+        {error && (<div className="text-center text-red-500"> Quelque chose s&apos;est mal passée... </div>)}
     </>
   }
   
