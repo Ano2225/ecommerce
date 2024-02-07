@@ -11,6 +11,8 @@ import { useCallback } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
+import { deleteObject, getStorage, ref } from 'firebase/storage';
+import firebaseApp from '@/libs/firebase';
 
 interface ManageProductsClientProps {
     products: Product[]
@@ -18,19 +20,51 @@ interface ManageProductsClientProps {
 
 const ManageProductsClient: React.FC<ManageProductsClientProps> = ({products}) => {
     const router = useRouter();
+    const storage = getStorage(firebaseApp);
 
     const handleToggleStock = useCallback((id: string, inStock: boolean) => {
         axios.put('/api/product/route', {
             id,
             inStock: !inStock
         }).then((res) => {
-            toast.success('Product status changed');
+            toast.success('Statut du produit modifié');
             router.refresh();
         }).catch((err) => {
-            toast.error('Oops! Something went wrong')
+            toast.error('Oops! Quelque chose s\'est mal passée')
             console.log(err);
         });
     },[])
+
+    const handleDelete = useCallback((id: string, images: any[]) => {
+        toast("Suppression de l'article..., veuillez patientez !")
+
+        const handleImageDelete = async() => {
+            try {
+                for(const item of images){
+                    if(item.image){
+                        const imageRef = ref(storage,item.image  );
+                        await deleteObject(imageRef)
+                    }
+                } 
+            }
+            catch(error) {
+                return console.log("Deleting images error", error)
+            }
+        };
+
+        handleImageDelete()
+
+        axios.delete(`/api/product/${id}/route`)
+        .then((res) => {
+            toast.success('Article supprimé');
+            router.refresh();
+        })
+        .catch((err) => {
+            toast.error("Échec de la suppression du produit");
+            console.log(err);
+        })
+
+    }, [])
 
     let rows : any = []
 
@@ -97,7 +131,7 @@ const ManageProductsClient: React.FC<ManageProductsClientProps> = ({products}) =
           w-full'
           >
             <ActionBtn  icon={MdCached} onClick={() => handleToggleStock(params.row.id, params.row.inStock)}/>
-            <ActionBtn  icon={MdDelete} onClick={() => {}}/>
+            <ActionBtn  icon={MdDelete} onClick={() => {handleDelete(params.row.id, params.row.images)}}/>
             <ActionBtn  icon={MdRemoveRedEye} onClick={() => {}}/>
         </div>
     )
