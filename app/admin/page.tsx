@@ -5,6 +5,8 @@ import getUsers from "@/actions/getUsers";
 import Container from "../components/Container";
 import BarGraph from "./BarGraph";
 import getGraphData from "@/actions/getGraphData";
+import { getCurrentUser } from "@/actions/getCurrentUser";
+import NullData from "../components/NullData";
 
 const Admin =async () => {
 
@@ -12,6 +14,12 @@ const Admin =async () => {
   const orders = await getOrders();
   const users = await getUsers();
   const graphData = await getGraphData();
+
+  const currentUser = await getCurrentUser();
+
+  if(!currentUser || currentUser.role !== "ADMIN") {
+    return <NullData  title={"Oops ! Accès refusé "}/>
+  }
 
   return (
     <div className="pt-8">

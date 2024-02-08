@@ -36,7 +36,7 @@ const ManageOrdersClient: React.FC<ManageOrdersClientProps> = ({orders}) => {
             return {
                 id: order.id,
                 customer: order.user.name,
-                amount:formatPrice(order.amount / 100),
+                amount:formatPrice(order.amount),
                 adminDepositNumber: order.adminDepositNumber,
                 userDepositNumber: order.userDepositNumber,
                 userPhoneNumber: order.userPhoneNumber,

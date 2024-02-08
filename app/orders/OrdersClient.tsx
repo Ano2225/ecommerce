@@ -6,9 +6,6 @@ import Heading from '@/app/components/Heading';
 import Status from '@/app/components/Status';
 import {  MdClose, MdDeliveryDining, MdDone, MdRemoveRedEye } from 'react-icons/md';
 import ActionBtn from '@/app/components/ActionBtn';
-import { useCallback } from 'react';
-import axios from 'axios';
-import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import {Order} from '@prisma/client';
 import {User} from '@prisma/client';
@@ -36,7 +33,7 @@ const OrdersClient: React.FC<OrdersClientProps> = ({orders}) => {
             return {
                 id: order.id,
                 customer: order.user.name,
-                amount:formatPrice(order.amount / 100),
+                amount:formatPrice(order.amount),
                 adminDepositNumber: order.adminDepositNumber,
                 userDepositNumber: order.userDepositNumber,
                 userPhoneNumber: order.userPhoneNumber,

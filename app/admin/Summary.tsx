@@ -65,7 +65,7 @@ const Summary: React.FC<SummaryProps> = ({
             })
 
             const unpaidOrders = orders.filter((order) => {
-                order.status === 'En attente'
+               return order.status === 'En attente'
             })
 
             tempData.sale.digit = totalSale;
