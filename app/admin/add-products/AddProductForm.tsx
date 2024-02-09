@@ -10,15 +10,13 @@ import Input from "@/app/components/inputs/input";
 import firebaseApp from "@/libs/firebase";
 import { categories } from "@/utils/Categories";
 import {colors} from "@/utils/Colors";
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import {getDownloadURL, getStorage, ref, uploadBytesResumable} from 'firebase/storage';
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { getCurrentUser } from "@/actions/getCurrentUser";
-import { SafeUser } from "@/types";
-
 
 export type ImageType = {
     color: string;
@@ -32,11 +30,8 @@ export type UploadedImageType = {
     image: string;
 }
 
-interface AddProductFormProps {
-    currentUser: SafeUser;
-  }
 
-const AddProductForm:React.FC<AddProductFormProps> = ({currentUser}) => {
+const AddProductForm = ({currentUser}) => {
 
         
     const router = useRouter();
