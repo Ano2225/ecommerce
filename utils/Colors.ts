@@ -19,6 +19,11 @@ export const colors = [
       colorCode: '#FF0000',
       image: null,
     },
+    {
+      color: 'Autre',
+      colorCode: '#EB984E',
+      image: null,
+    },
   ];
   
   export default colors;
