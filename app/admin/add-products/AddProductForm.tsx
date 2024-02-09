@@ -30,8 +30,11 @@ export type UploadedImageType = {
     image: string;
 }
 
+interface Props {
+    currentUser: any; // Replace `any` with the actual type of currentUser
+  }
 
-const AddProductForm = ({currentUser:any}) => {
+const AddProductForm: React.FC<Props> = ({currentUser}) => {
 
         
     const router = useRouter();
