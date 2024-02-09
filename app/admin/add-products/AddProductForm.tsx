@@ -31,7 +31,7 @@ export type UploadedImageType = {
 }
 
 
-const AddProductForm = ({currentUser}) => {
+const AddProductForm = ({currentUser:any}) => {
 
         
     const router = useRouter();
