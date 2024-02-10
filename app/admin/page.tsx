@@ -20,7 +20,7 @@ const Admin =async () => {
   if(!currentUser || currentUser.role !== "ADMIN") {
     return <NullData  title={"Oops ! Accès refusé "}/>
   }
-
+   
   return (
     <div className="pt-8">
       <Container>
