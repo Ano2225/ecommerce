@@ -18,7 +18,7 @@ export async function getCurrentUser() {
             where: {
                 email: session?.user?.email,
             },
-            include:{orders: true},
+            include: { orders: true },
         });
 
         if (!currentUser) {
@@ -27,9 +27,9 @@ export async function getCurrentUser() {
 
         return {
             ...currentUser,
-            createdAt: currentUser.createdAt.toISOString(),
-            updatedAt: currentUser.updateAt.toISOString(),
-            emailVerified: currentUser.emailVerified?.toISOString() || null,
+            createdAt: currentUser.createdAt.toISOString(), // Convert to string
+            updatedAt: currentUser.updateAt.toISOString(), // Convert to string
+            emailVerified: currentUser.emailVerified ? currentUser.emailVerified.toISOString() : null, // Convert to string or null
         };
     } catch (error) {
         console.error("Error fetching current user:", error);
