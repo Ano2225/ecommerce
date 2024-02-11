@@ -105,7 +105,7 @@ import toast from "react-hot-toast";
         <div className="flex items-center flex-col gap-4">
         <div className="text-teal-500 text-center"> Paiement en cours, vous serez contacté une fois la commande validée </div>
         <div className="max-w-[220px] w-full">
-          <Button label="Voir vos commandes" onClick={() => router.push('/orders')} />
+          <Button label="Voir mes commandes" onClick={() => router.push('/orders')} />
         </div>
       </div>
     ) :
@@ -152,7 +152,11 @@ import toast from "react-hot-toast";
 
             <h2 className="font-semibold mt-4 mb-2 text-lg">Informations de paiement</h2>
 
-           
+            <div className="py-4 text-center text-gray-800 text-xl font-bold">
+              Total à payer : {formattedPrice}
+
+            </div>
+            <p className="pb-4 font-medium text-gray-600">*Livraison offerte</p>
             <div>
             </div>
             <div className="mb-4">
@@ -212,10 +216,7 @@ import toast from "react-hot-toast";
                 <span className="text-red-500 text-sm">Ce champ est requis</span>
               )}
             </div>
-            <div className="py-4 text-center text-gray-800 text-xl font-bold">
-              Total à payer : {formattedPrice}
-            </div>
-            <p className="py-2 font-medium text-gray-600">*Livraison offerte</p>
+           
 
             <Button
               label={loading ? 'Traitement' : 'Payer'}

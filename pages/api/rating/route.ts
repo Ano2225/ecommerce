@@ -14,7 +14,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 order.products.find(item => item.id === product.id) && order.deliveryStatus === "Livré"
             );
 
-            const userReview = product.reviews.find((review) => review.userId === currentUser.id);
+            const userReview = product.reviews.find((review: any) => review.userId === currentUser?.id);
 
          
 
