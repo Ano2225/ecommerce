@@ -7,7 +7,7 @@ import Category from "./Category"
 import { useEffect, useState } from 'react'; // Importer useEffect et useState depuis React
 
 const Categories = () => {
-    const [category, setCategory] = useState(null); // Utiliser useState pour stocker la valeur de category
+    /*const [category, setCategory] = useState(null); // Utiliser useState pour stocker la valeur de category
     const [isMainPage, setIsMainPage] = useState(false); // Utiliser useState pour stocker la valeur de isMainPage
 
     useEffect(() => {
@@ -20,10 +20,13 @@ const Categories = () => {
         setCategory(categoryParam);
     }, []); // Exécuter cet effet une seule fois après le premier rendu
 
-    if (!isMainPage) return null;
+    if (!isMainPage) return null;*/
 
     return (
-        <div className="bg-white">
+        <div>
+            
+        </div>
+        /*<div className="bg-white">
             <Container>
                 <div className="pt-4 flex flex-row items-center justify-between overflow-x-auto">
                     {categories.map((item) => (
@@ -36,7 +39,7 @@ const Categories = () => {
                     ))}
                 </div>
             </Container>
-        </div>
+        </div>*/
     );
 }
 

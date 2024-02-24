@@ -1,7 +1,7 @@
 // @ts-nocheck
 export const dynamic = 'force-dynamic'
 
-
+/*
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
 import { IconType } from "react-icons";
@@ -51,3 +51,4 @@ const Category: React.FC<CategoryProps> = ({
 };
 
 export default Category;
+*/
