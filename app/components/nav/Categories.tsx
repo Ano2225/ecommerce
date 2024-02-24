@@ -1,6 +1,6 @@
 'use client'
 
-export const dynamic = 'auto'
+export const dynamic = 'force-dynamic'
 
 
 import { categories } from "@/utils/Categories"
