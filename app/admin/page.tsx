@@ -1,4 +1,6 @@
 // @ts-nocheck
+export const dynamic = 'force-dynamic'
+
 
 import getProducts from "@/actions/getProduct";
 import Summary from "./Summary";
