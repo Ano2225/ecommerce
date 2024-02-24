@@ -1,5 +1,5 @@
 // @ts-nocheck
-export const dynamic = 'auto'
+export const dynamic = 'force-dynamic'
 
 
 import { useRouter, useSearchParams } from "next/navigation";

@@ -1,21 +1,26 @@
+// @ts-nocheck
 'use client'
-
-export const dynamic = 'force-dynamic'
-
 
 import { categories } from "@/utils/Categories"
 import Container from "../Container"
 import Category from "./Category"
-import { usePathname, useSearchParams } from "next/navigation"
-
+import { useEffect, useState } from 'react'; // Importer useEffect et useState depuis React
 
 const Categories = () => {
-    const params = useSearchParams()
-    const category = params?.get('category');
-    const pathname = usePathname();
-    const isMainPage = pathname === '/'
+    const [category, setCategory] = useState(null); // Utiliser useState pour stocker la valeur de category
+    const [isMainPage, setIsMainPage] = useState(false); // Utiliser useState pour stocker la valeur de isMainPage
 
-    if(!isMainPage) return null;
+    useEffect(() => {
+        // Vérifier si c'est la page principale
+        setIsMainPage(window.location.pathname === '/');
+        
+        // Récupérer le paramètre 'category' de l'URL
+        const params = new URLSearchParams(window.location.search);
+        const categoryParam = params.get('category');
+        setCategory(categoryParam);
+    }, []); // Exécuter cet effet une seule fois après le premier rendu
+
+    if (!isMainPage) return null;
 
     return (
         <div className="bg-white">
@@ -32,7 +37,7 @@ const Categories = () => {
                 </div>
             </Container>
         </div>
-    )
+    );
 }
 
-export default Categories
+export default Categories;
