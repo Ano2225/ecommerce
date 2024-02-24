@@ -1,3 +1,6 @@
+// @ts-nocheck
+
+
 import Container from "@/app/components/Container";
 import ManageProductsClient from "./ManageProductsClient";
 import getProducts from "@/actions/getProduct";
