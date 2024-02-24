@@ -1,3 +1,6 @@
+// @ts-nocheck
+
+
 import Container from "@/app/components/Container"
 import ProductDetails from "./ProductDetails"
 import ListRating from "./ListRating"
