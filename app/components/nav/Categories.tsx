@@ -1,18 +1,16 @@
 // @ts-nocheck
 
-
 'use client'
 
+import { useRouter } from 'next/router';
 import { categories } from "@/utils/Categories"
 import Container from "../Container"
 import Category from "./Category"
-import { usePathname, useSearchParams } from "next/navigation"
-
 
 const Categories = () => {
-    const params = useSearchParams()
-    const category = params?.get('category');
-    const pathname = usePathname();
+    const router = useRouter();
+    const category = router.query.category;
+    const pathname = router.pathname;
     const isMainPage = pathname === '/'
 
     if(!isMainPage) return null;
