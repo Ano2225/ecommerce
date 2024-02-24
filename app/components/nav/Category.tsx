@@ -1,4 +1,6 @@
 // @ts-nocheck
+export const dynamic = 'auto'
+
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
