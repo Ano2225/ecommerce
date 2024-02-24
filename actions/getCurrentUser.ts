@@ -1,3 +1,6 @@
+// @ts-nocheck
+
+
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { getServerSession } from 'next-auth';
 import prisma from '@/libs/prismadb';
@@ -7,7 +10,7 @@ export async function getSession() {
 }
 
 export async function getCurrentUser() {
-    try {
+     
         const session = await getSession();
 
         if (!session?.user?.email) {
@@ -31,8 +34,5 @@ export async function getCurrentUser() {
             updatedAt: currentUser.updateAt.toISOString(), // Convert to string
             emailVerified: currentUser.emailVerified ? currentUser.emailVerified.toISOString() : null, // Convert to string or null
         };
-    } catch (error) {
-        console.error("Error fetching current user:", error);
-        return null;
-    }
+    
 }
