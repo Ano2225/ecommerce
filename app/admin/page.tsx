@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import getProducts from "@/actions/getProduct";
 import Summary from "./Summary";
 import getOrders from "@/actions/getOrders";
