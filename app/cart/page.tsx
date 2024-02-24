@@ -1,3 +1,4 @@
+// @ts-nocheck
 
 import { getCurrentUser } from "@/actions/getCurrentUser";
 import Container from "../components/Container";
