@@ -1,3 +1,4 @@
+
   import prisma from '@/libs/prismadb';
   import { NextApiRequest, NextApiResponse } from 'next';
 
@@ -57,7 +58,7 @@ const CODE_PREFIX = 'COM';
           console.log('Order created:', newOrder);
 
           return res.status(200).json(newOrder);
-        } catch (error) {
+        } catch (error:any) {
           console.error('Error creating order:', error);
 
           return res.status(500).json({ error: `Failed to create order: ${error.message}` });
