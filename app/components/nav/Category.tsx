@@ -1,8 +1,9 @@
 // @ts-nocheck
 export const dynamic = 'force-dynamic'
 
-/*
+
 import { useRouter, useSearchParams } from "next/navigation";
+import queryString from "query-string";
 import { useCallback } from "react";
 import { IconType } from "react-icons";
 
@@ -24,16 +25,27 @@ const Category: React.FC<CategoryProps> = ({
         if (label === 'Tous') {
             router.push('/');
         } else {
-            const currentQuery = Object.fromEntries(params);
-            const updatedQuery = {
+            let currentQuery = {};
+            
+            if(params) {
+                currentQuery = queryString.parse(params.toString())
+            }
+
+            const updatedQuery:any = {
                 ...currentQuery,
                 category: label
             };
 
-            const url = new URL('/', window.location.origin);
-            url.search = new URLSearchParams(updatedQuery).toString();
-
-            router.push(url.pathname + url.search);
+            const url = queryString.stringifyUrl(
+                {
+                    url: '/',
+                    query: updatedQuery
+                },
+                {
+                    skipNull: true
+                }
+            )
+            router.push(url);
         }
     }, [label, params, router]);
 
@@ -51,4 +63,3 @@ const Category: React.FC<CategoryProps> = ({
 };
 
 export default Category;
-*/
