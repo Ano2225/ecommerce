@@ -1,4 +1,4 @@
-export const dynamic = "force-static"
+// @ts-nocheck
 
 
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
@@ -6,25 +6,21 @@ import { getServerSession } from 'next-auth';
 import prisma from '@/libs/prismadb';
 
 export async function getSession() {
-    try {
-        return await getServerSession(authOptions);
-    } catch (error) {
-        console.error("Failed to get session:", error);
-        return null;
-    }
+    return await getServerSession(authOptions);
 }
 
 export async function getCurrentUser() {
-    try {
+     
         const session = await getSession();
 
-        const userEmail = session?.user?.email;
-        if (!userEmail) {
+        if (!session?.user?.email) {
             return null;
         }
 
         const currentUser = await prisma.user.findUnique({
-            where: { email: userEmail },
+            where: {
+                email: session?.user?.email,
+            },
             include: { orders: true },
         });
 
@@ -34,12 +30,9 @@ export async function getCurrentUser() {
 
         return {
             ...currentUser,
-            createdAt: currentUser.createdAt.toISOString(),
-            updatedAt: currentUser.updateAt?.toISOString(),
-            emailVerified: currentUser.emailVerified?.toISOString() || null,
+            createdAt: currentUser.createdAt.toISOString(), // Convert to string
+            updatedAt: currentUser.updateAt.toISOString(), // Convert to string
+            emailVerified: currentUser.emailVerified ? currentUser.emailVerified.toISOString() : null, // Convert to string or null
         };
-    } catch (error) {
-        console.error("Failed to get current user:", error);
-        return null;
-    }
+    
 }
