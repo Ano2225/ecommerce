@@ -1,4 +1,6 @@
 'use client'
+export const dynamic = 'auto'
+
 
 import Button from "@/app/components/Button";
 import Heading from "@/app/components/Heading"

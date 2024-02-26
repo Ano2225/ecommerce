@@ -1,3 +1,6 @@
+export const dynamic = 'auto'
+
+
 import { getCurrentUser } from '@/actions/getCurrentUser';
 import prisma from '@/libs/prismadb';
 import { NextApiRequest, NextApiResponse } from 'next';
