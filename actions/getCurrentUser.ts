@@ -5,34 +5,31 @@ import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { getServerSession } from 'next-auth';
 import prisma from '@/libs/prismadb';
 
-export async function getSession() {
-    return await getServerSession(authOptions);
-}
+export async function getServerSideProps(context) {
+    const session = await getServerSession(authOptions, context.req);
 
-export async function getCurrentUser() {
-     
-        const session = await getSession();
+    const userEmail = session?.user?.email;
+    if (!userEmail) {
+        return { props: {} };
+    }
 
-        if (!session?.user?.email) {
-            return null;
+    const currentUser = await prisma.user.findUnique({
+        where: { email: userEmail },
+        include: { orders: true },
+    });
+
+    if (!currentUser) {
+        return { props: {} };
+    }
+
+    return {
+        props: {
+            user: {
+                ...currentUser,
+                createdAt: currentUser.createdAt.toISOString(),
+                updatedAt: currentUser.updateAt?.toISOString(),
+                emailVerified: currentUser.emailVerified?.toISOString() || null,
+            }
         }
-
-        const currentUser = await prisma.user.findUnique({
-            where: {
-                email: session?.user?.email,
-            },
-            include: { orders: true },
-        });
-
-        if (!currentUser) {
-            return null;
-        }
-
-        return {
-            ...currentUser,
-            createdAt: currentUser.createdAt.toISOString(), // Convert to string
-            updatedAt: currentUser.updateAt.toISOString(), // Convert to string
-            emailVerified: currentUser.emailVerified ? currentUser.emailVerified.toISOString() : null, // Convert to string or null
-        };
-    
+    };
 }
