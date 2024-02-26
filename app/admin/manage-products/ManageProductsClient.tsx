@@ -35,7 +35,7 @@ const ManageProductsClient: React.FC<ManageProductsClientProps> = ({products}) =
         });
     },[])
 
-    const handleDelete = useCallback((id: string, images: any[]) => {
+    const handleDelete = useCallback(async(id: string, images: any[]) => {
         toast("Suppression de l'article..., veuillez patientez !")
 
         const handleImageDelete = async() => {
@@ -44,6 +44,7 @@ const ManageProductsClient: React.FC<ManageProductsClientProps> = ({products}) =
                     if(item.image){
                         const imageRef = ref(storage,item.image  );
                         await deleteObject(imageRef)
+                        console.log('image deleted', item.image)
                     }
                 } 
             }
@@ -52,7 +53,7 @@ const ManageProductsClient: React.FC<ManageProductsClientProps> = ({products}) =
             }
         };
 
-        handleImageDelete()
+        await handleImageDelete()
 
         axios.delete(`/api/product/${id}/route`)
         .then((res) => {
