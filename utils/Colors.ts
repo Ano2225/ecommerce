@@ -15,11 +15,6 @@ export const colors = [
       image: null,
     },
     {
-      color: 'Rouge',
-      colorCode: '#FF0000',
-      image: null,
-    },
-    {
       color: 'Autre',
       colorCode: '#EB984E',
       image: null,

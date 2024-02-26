@@ -119,8 +119,7 @@ import toast from "react-hot-toast";
         Choisissez un numéro sur lequel faire le dépôt et remplissez les champs vides !
       </div>
       <div className="flex items-center gap-2">
-        <span className="font-medium">Numero de depot :</span>
-        <span className="text-red-800 font-semibold ">+225 0102528848</span>
+        <span className="text-red-800 font-semibold ">0102528848</span>
         <Image src='/wave.png'
         alt="Wave" 
         width={70}
@@ -128,9 +127,8 @@ import toast from "react-hot-toast";
         
         />
       </div>
-      <div className="flex items-center gap-2">
-        <span className="font-medium">Numero de depot :</span>
-        <span className="text-red-800 font-semibold ">+225 0102528848</span>
+      <div className="flex items-center gap-2 py-2">
+        <span className="text-red-800 font-semibold ">0102528848</span>
         <Image
         src='/orange.png'
           alt="Orange"
@@ -138,9 +136,8 @@ import toast from "react-hot-toast";
         height={30} 
           />
       </div>
-      <div className="flex items-center gap-2">
-        <span className="font-medium">Numero de depot :</span>
-        <span className="text-red-800 font-semibold">+225 0102528848</span>
+      <div className="flex items-center gap-2 py-0">
+        <span className="text-red-800 font-semibold">0102528848</span>
         <Image 
         src='/moov.png'
           alt="Moov"

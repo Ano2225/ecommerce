@@ -81,8 +81,8 @@ const Orderdetails:React.FC<OrderdetailsProps> = ({order}) => {
                 ARTICLE
             </div>
             <div className='justify-self-center'>PRIX</div>
-            <div className='justify-self-center'>QUANTITE</div>
-            <div className='justify-self-end'>TOTAL</div>
+            <div className='justify-self-center'>QTY</div>
+            <div className='justify-self-end'>TTAL</div>
         </div>
         {
             order.products && 
