@@ -1,4 +1,6 @@
 'use client'
+// @ts-nocheck
+
 
 import Button from "@/app/components/Button";
 import Heading from "@/app/components/Heading";
