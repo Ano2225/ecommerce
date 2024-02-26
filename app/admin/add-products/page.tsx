@@ -1,6 +1,3 @@
-export const dynamic = 'auto'
-
-
 import Container from "@/app/components/Container";
 import FormWrap from "@/app/components/FormWrap";
 import AddProductForm from "./AddProductForm";

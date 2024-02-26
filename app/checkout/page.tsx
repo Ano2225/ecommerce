@@ -1,6 +1,4 @@
 // @ts-nocheck
-export const dynamic = 'auto'
-
 
 
 import Container from "../components/Container";

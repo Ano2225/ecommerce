@@ -1,5 +1,4 @@
 // @ts-nocheck
-export const dynamic = 'auto'
 
 
 import { getCurrentUser } from "@/actions/getCurrentUser";
