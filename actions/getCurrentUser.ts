@@ -1,5 +1,4 @@
-export const dynamic = "force-dynamic"
-
+'use server'
 
 
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
