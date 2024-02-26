@@ -4,12 +4,8 @@ import { getServerSession } from 'next-auth';
 import prisma from '@/libs/prismadb';
 
 export async function getSession() {
-    try {
-        return await getServerSession(authOptions);
-    } catch (error) {
-        console.error("Failed to get session:", error);
-        return null;
-    }
+    return await getServerSession(authOptions);
+    
 }
 
 export async function getCurrentUser() {
