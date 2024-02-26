@@ -1,4 +1,4 @@
-'use server'
+export const dynamic = "force-static"
 
 
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
