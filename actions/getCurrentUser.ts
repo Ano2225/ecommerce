@@ -9,8 +9,7 @@ export async function getSession() {
 }
 
 export async function getCurrentUser() {
-    try {
-        const session = await getSession();
+    const session = await getSession();
 
        if(!session?.user?.email) {
         return null
@@ -31,8 +30,5 @@ export async function getCurrentUser() {
             updatedAt: currentUser.updateAt?.toISOString(),
             emailVerified: currentUser.emailVerified?.toISOString() || null,
         };
-    } catch (error) {
-        console.error("Failed to get current user:", error);
-        return null;
-    }
+    
 }
