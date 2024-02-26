@@ -1,4 +1,5 @@
-// @ts-nocheck
+export const dynamic = "force-dynamic"
+
 
 
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
