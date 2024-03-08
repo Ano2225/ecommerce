@@ -1,7 +1,7 @@
 import Container from "@/app/components/Container"
 import FooterList from "./FooterList"
 import Link from "next/link"
-import {MdFacebook} from 'react-icons/md'
+import { MdWhatsapp} from 'react-icons/md'
 import {AiFillInstagram} from 'react-icons/ai'
 
 const Footer = () => {
@@ -37,10 +37,10 @@ const Footer = () => {
             <FooterList>
                 <h3 className="text-base font-bold mb-2">Nous suivre</h3>
                 <div className="flex gap-2">
-                    <Link href="#">
-                        <MdFacebook size={24}/>
+                    <Link href="https://wa.me/message/ITS5XNP45JZQD1">
+                        <MdWhatsapp size={24}/>
                     </Link>
-                    <Link href="#">
+                    <Link href="https://www.instagram.com/market_owen_225?igsh=MXJxcXl5YzU2NW43dg==">
                         <AiFillInstagram size={24}/>
                     </Link>
                 </div>
