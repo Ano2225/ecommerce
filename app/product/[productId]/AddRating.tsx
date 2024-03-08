@@ -1,3 +1,4 @@
+
 'use client'
 // @ts-nocheck
 
@@ -61,7 +62,7 @@ const onSubmit:SubmitHandler<FieldValues> = async(data) => {
             reset();
         }).catch((error) => {
             console.log(error)
-            toast.error('Something went wrong')
+            toast.error('Quelque chose s\est mal passée')
         }).finally(() => {
             setIsLoading(false);
         })

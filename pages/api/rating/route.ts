@@ -9,13 +9,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             
             const { comment, rating, product, userId } = req.body;
 
-            // Vérifier si la commande a été livrée et si l'utilisateur a déjà soumis une critique
+            /*// Vérifier si la commande a été livrée et si l'utilisateur a déjà soumis une critique
             const deliveredOrder = currentUser?.orders.some(order =>
                 order.products.find(item => item.id === product.id) && order.deliveryStatus === "Livré"
             );
 
             const userReview = product.reviews.find((review: any) => review.userId === currentUser?.id);
-
+*/
          
 
             // Créer une nouvelle critique
