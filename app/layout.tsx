@@ -5,6 +5,7 @@ import NavBar from './components/nav/NavBar';
 import Footer from './components/footer/Footer';
 import CartProvider from '@/providers/CartProvider';
 import { Toaster } from "react-hot-toast";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 
 const poppins = Poppins({ subsets: ['latin'], weight:['400','700'] })
@@ -38,6 +39,7 @@ export default  async function RootLayout({
         <Footer/>
         </div>
       </CartProvider>
+      <SpeedInsights />
         </body>
     </html>
   )
