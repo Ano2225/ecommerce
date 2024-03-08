@@ -21,7 +21,8 @@ import toast from "react-hot-toast";
     adminDepositNumber:string;
     userDepositNumber: string;
     userPhoneNumber: string;
-    address:string
+    address:string;
+    pointure: string;
 
   }
 
@@ -61,7 +62,8 @@ import toast from "react-hot-toast";
           userPhoneNumber: data.userPhoneNumber,
           address: data.address,
           id_user: id_user,
-          amount: formattedPrice
+          amount: formattedPrice,
+          pointure: data.pointure,
 
         };
         
@@ -119,7 +121,7 @@ import toast from "react-hot-toast";
         Choisissez un numéro sur lequel faire le dépôt et remplissez les champs vides !
       </div>
       <div className="flex items-center gap-2">
-        <span className="text-red-800 font-semibold ">0102528848</span>
+        <span className="text-red-800 font-semibold ">0151013593</span>
         <Image src='/wave.png'
         alt="Wave" 
         width={70}
@@ -128,7 +130,7 @@ import toast from "react-hot-toast";
         />
       </div>
       <div className="flex items-center gap-2 py-2">
-        <span className="text-red-800 font-semibold ">0102528848</span>
+        <span className="text-red-800 font-semibold ">0799428844</span>
         <Image
         src='/orange.png'
           alt="Orange"
@@ -137,7 +139,7 @@ import toast from "react-hot-toast";
           />
       </div>
       <div className="flex items-center gap-2 py-0">
-        <span className="text-red-800 font-semibold">0102528848</span>
+        <span className="text-red-800 font-semibold">0151013593</span>
         <Image 
         src='/moov.png'
           alt="Moov"
@@ -153,7 +155,7 @@ import toast from "react-hot-toast";
               Total à payer : {formattedPrice}
 
             </div>
-            <p className="pb-4 font-medium text-gray-600">*Livraison offerte</p>
+            <p className="pb-4 font-medium text-gray-600">*Livraison: 2000 F</p>
             <div>
             </div>
             <div className="mb-4">
@@ -202,8 +204,21 @@ import toast from "react-hot-toast";
             </div>
 
             <div className="mb-4">
+              <label htmlFor="pointure" className="block text-sm font-medium text-gray-800">
+               Pointure/Taile
+              </label>
+              <input
+                {...register("pointure", { required: true })}
+                className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring focus:border-teal-500" placeholder="37-45/M-L-XL-XXL"
+              />
+              {errors.pointure && (
+                <span className="text-red-500 text-sm">Ce champ est requis</span>
+              )}
+            </div>
+
+            <div className="mb-4">
               <label htmlFor="address" className="block text-sm font-medium text-gray-800">
-                Lieu de livraison
+               Lieu de livraison
               </label>
               <input
                 {...register("address", { required: true })}

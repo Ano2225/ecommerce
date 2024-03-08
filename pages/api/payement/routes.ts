@@ -24,7 +24,7 @@ const CODE_PREFIX = 'COM';
 
       if (request.method === 'POST') {
         // Handle POST request
-        const { items, adminDepositNumber, userDepositNumber, userPhoneNumber,address, id_user, amount } = request.body;
+        const { items, adminDepositNumber, userDepositNumber, userPhoneNumber,address, id_user, amount, pointure } = request.body;
         const orderId = generateCode(CODE_LENGTH, CODE_PREFIX);
 
 
@@ -39,6 +39,7 @@ const CODE_PREFIX = 'COM';
             createDate: new Date(),
             products: items,
             address: address,
+            pointure: pointure,
             adminValidation: false,
             adminDepositNumber: adminDepositNumber,
             userDepositNumber: userDepositNumber,

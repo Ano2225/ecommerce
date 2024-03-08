@@ -23,7 +23,7 @@ const Footer = () => {
             </FooterList>
             <FooterList>
                 <h3 className="text-base font-bold mb-2">Service Client</h3>
-                <Link href='#'>Nous contacter</Link>
+                <Link href='https://wa.me/message/ITS5XNP45JZQD1'>Nous contacter</Link>
                 <Link href='#'>Retour et remboursement</Link>
             </FooterList>
             <div className="w-full md:w-1/3 mb-6 mb:mb-0">
@@ -46,7 +46,7 @@ const Footer = () => {
                 </div>
             </FooterList>
 
-            
+            <p>Fait par <Link href="https://wa.me/2250102528848?text=Je%20suis%20interessé%20par%20vos%20services" target="_blank">Young_Geek</Link></p>
         </div>
     </Container>
 

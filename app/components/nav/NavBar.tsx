@@ -9,6 +9,7 @@ import UserMenu from "./UserMenu";
 import { getCurrentUser } from "@/actions/getCurrentUser";
 import Categories from "./Categories";
 import SearchBar from "./SearchBar";
+import Image from "next/image";
 
 const redressed = Redressed({subsets: ['latin'],
 weight:['400']})
@@ -33,7 +34,9 @@ const NavBar = async () => {
             gap-3
             md:gap-0
             ">
-                <Link href="/" className={`${redressed.className} font-bold text-2xl`}>Owen-Market</Link>
+                <Link href="/" className={`${redressed.className} font-bold text-2xl`}>
+                  <Image src='/owen.png' alt='Owen_Market' height={65} width={65}/>
+                </Link>
                 <div className="hidden md:block">
                   <SearchBar/>
                 </div>
