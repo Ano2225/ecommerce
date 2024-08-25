@@ -5,8 +5,6 @@ export const dynamic = 'force-dynamic'
 
 import Container from "./components/Container";
 import HomeBanner from "./components/HomeBanner";
-import {products} from "../utils/products"
-import { truncateText } from "@/utils/truncateTexts";
 import ProductCard from "./components/products/ProductCard";
 import getProducts, { IProductParams } from "@/actions/getProduct";
 import NullData from "./components/NullData";
