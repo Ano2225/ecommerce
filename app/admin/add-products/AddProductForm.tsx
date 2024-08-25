@@ -31,7 +31,7 @@ export type UploadedImageType = {
 }
 
 interface Props {
-    currentUser: any; // Replace `any` with the actual type of currentUser
+    currentUser: any; 
   }
 
 const AddProductForm: React.FC<Props> = ({currentUser}) => {

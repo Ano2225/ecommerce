@@ -1,53 +1,93 @@
-// @ts-nocheck
-export const dynamic = 'force-dynamic'
+'use client';
 
-
-
-import Container from "./components/Container";
-import HomeBanner from "./components/HomeBanner";
-import ProductCard from "./components/products/ProductCard";
-import getProducts, { IProductParams } from "@/actions/getProduct";
-import NullData from "./components/NullData";
+import { useEffect, useState } from 'react';
+import Container from './components/Container';
+import HomeBanner from './components/HomeBanner';
+import ProductCard from './components/products/ProductCard';
+import NullData from './components/NullData';
 
 interface HomeProps {
-  searchParams: IProductParams
+  searchParams: Record<string, string>;
 }
 
-export default async function Home({searchParams}: HomeProps) {
-  const products = await getProducts(searchParams)
+export default function Home({ searchParams }: HomeProps) {
+  const [products, setProducts] = useState<any[]>([]);
+  const [totalProducts, setTotalProducts] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const itemsPerPage = 12;
 
-  if(products.length === 0) {
-    return <NullData title={"Ooops ! Pas d'article trouvés ."} />
-  }
+  useEffect(() => {
+    const fetchProducts = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch(`/api/products?category=${searchParams?.category || ''}&searchTerm=${searchParams?.searchTerm || ''}&page=${currentPage}&limit=${itemsPerPage}`);
+        const { products, totalProducts } = await response.json();
 
-  function shuffleArray(array: any) {
-    for(let i = array.length -1; i> 0; i--){
-      const j = Math.floor(Math.random() *(i+1));
-      [array[i], array[j]] = [array[j], array[i]]
+        setProducts(products);
+        setTotalProducts(totalProducts);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, [searchParams, currentPage]);
+
+  const totalPages = Math.ceil(totalProducts / itemsPerPage);
+
+  const handlePageChange = (newPage: number) => {
+    if (newPage > 0 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+      window.scrollTo({ top: 0, behavior: 'smooth' }); 
     }
+  };
 
-    return array
+  if (loading) {
+    return <div className="flex justify-center items-center h-screen">Chargement...</div>;
   }
 
-  const shuffledProducts = shuffleArray(products)
+  if (products.length === 0) {
+    return <NullData title={"Ooops ! Pas d'article trouvés."} />;
+  }
 
   return (
-   <div>
-    <Container>
-      <div className="p-8">
-        <HomeBanner/>
-      </div>
-      <div className="grid grid-cols-2 
-      sm:grid-cols-3 
-      lg:grid:cols:4
-       xl:grid-cols-5 
-       2xl:grid-cols-6
-        gap-8">
-          {shuffledProducts.map((product: any) => {
-            return <ProductCard key={product.id} data={product}/>
-          })}
-      </div>
-    </Container>
-   </div>
-  )
+    <div>
+      <Container>
+        <div className="p-8">
+          <HomeBanner />
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8">
+          {products.map((product: any) => (
+            <ProductCard key={product.id} data={product} />
+          ))}
+        </div>
+        <div className="flex items-center justify-center mt-8">
+          <button
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className={`px-4 py-2 mx-4 rounded bg-gray-600 text-white hover:bg-gray-700 transition-all ${
+              currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
+          >
+            Précédent
+          </button>
+          <span className="text-lg text-gray-700">
+            <span className="font-bold">{currentPage}</span> / <span className="font-bold">{totalPages}</span>
+          </span>
+          <button
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className={`px-4 py-2 mx-4 rounded bg-gray-600 text-white hover:bg-gray-700 transition-all ${
+              currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
+          >
+            Suivant
+          </button>
+        </div>
+      </Container>
+    </div>
+  );
 }

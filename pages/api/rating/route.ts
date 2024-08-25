@@ -1,39 +1,39 @@
-import { getCurrentUser } from '@/actions/getCurrentUser';
-import prisma from '@/libs/prismadb';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { getServerSession } from 'next-auth/next';
+import { authOptions } from '@/pages/api/auth/[...nextauth]';
+import prisma from '@/libs/prismadb';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === 'POST') {
         try {
-            const currentUser = await getCurrentUser(); // Récupérer l'utilisateur actuel
-            
-            const { comment, rating, product, userId } = req.body;
+            const session = await getServerSession(req, res, authOptions);
 
-            /*// Vérifier si la commande a été livrée et si l'utilisateur a déjà soumis une critique
-            const deliveredOrder = currentUser?.orders.some(order =>
-                order.products.find(item => item.id === product.id) && order.deliveryStatus === "Livré"
-            );
+            if (!session || !session.user) {
+                return res.status(401).json({ error: 'Non autorisé' });
+            }
 
-            const userReview = product.reviews.find((review: any) => review.userId === currentUser?.id);
-*/
-         
+            const { comment, rating, productId, userId } = req.body;
+
+            if (!comment || typeof rating !== 'number' || !productId) {
+                return res.status(400).json({ error: 'Données invalides' });
+            }
 
             // Créer une nouvelle critique
             const newReview = await prisma.review.create({
                 data: {
                     comment,
                     rating,
-                    productId: product.id,
-                    userId
-                }
+                    productId,
+                    userId, 
+                },
             });
 
             return res.status(201).json(newReview);
         } catch (error) {
-            console.error(error);
-            return res.status(500).json({ error: 'Internal Server Error' });
+            console.error('Erreur lors de la soumission de la critique :', error);
+            return res.status(500).json({ error: 'Erreur interne du serveur' });
         }
     } else {
-        return res.status(405).json({ error: 'Method Not Allowed' });
+        return res.status(405).json({ error: 'Méthode non autorisée' });
     }
 }

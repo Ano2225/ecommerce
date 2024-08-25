@@ -11,8 +11,8 @@ import { SpeedInsights } from "@vercel/speed-insights/next"
 const poppins = Poppins({ subsets: ['latin'], weight:['400','700'] })
 
 export const metadata: Metadata = {
-  title: 'Owen-Market',
-  description: 'E-commerce app',
+  title: 'Owen-Market - Votre Marketplace de Confiance pour Achats Sécurisés en Ligne',
+  description: 'Découvrez Owen-Market, la plateforme e-commerce de référence pour des transactions sécurisées, une large gamme de produits et un service client fiable. Achetez en toute confiance et une livraison rapide en Afrique de l\'Ouest.',
 }
 
 export default  async function RootLayout({
@@ -22,7 +22,6 @@ export default  async function RootLayout({
 }) {
 
  
-
   return (
     <html lang="en">
       <body className={`${poppins.className} text-slate-700 `}>

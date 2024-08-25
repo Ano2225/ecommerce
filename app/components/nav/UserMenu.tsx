@@ -1,6 +1,6 @@
-'use client'
+'use client';
 
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 import Avatar from "../Avatar";
 import { AiFillCaretDown } from "react-icons/ai";
 import Link from "next/link";
@@ -20,89 +20,101 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
     setIsOpen((prev) => !prev);
   }, []);
 
+  const handleCloseMenu = useCallback(() => {
+    setIsOpen(false);
+  }, []);
+
+  // Close the menu if clicking outside of it
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleClickOutside = (event: MouseEvent) => {
+      if (!(event.target as HTMLElement).closest('.user-menu')) {
+        handleCloseMenu();
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isOpen, handleCloseMenu]);
+
   return (
     <>
-      <div className="relative z-30">
+      <div className="relative z-30 user-menu">
         <div
           onClick={toggleOpen}
           className="
             p-2
-            border-[1px]
-            border-slate-400
+            border
+            border-gray-300
             flex
-            flex-row
             items-center
-            gap-1
+            gap-2
             rounded-full
             cursor-pointer
-            hover: shadow-md
+            hover:shadow-md
             transition
-            text-slate-700"
+            text-gray-700
+            bg-white
+          "
         >
-          <Avatar src={currentUser?.image}/>
-          <AiFillCaretDown />
+          <Avatar src={currentUser?.image || '/defaultImage.png'} />
+          <AiFillCaretDown className="text-gray-500" />
+        </div>
 
-          <div>
-            {isOpen && (
-              <div className="
-                absolute
-                rounded-md 
-                shadow-md
-                w-[170px]
-                bg-white
-                overflow-hidden
-                right-0
-                top-12
-                text-sm
-                flex
-                flex-col
-                cursor-pointer"
-              >
-                {currentUser ? (
-                  <div>
-                    <Link href="/orders">
-                      <MenuItem onClick={toggleOpen}>
-                        Vos commandes
-                      </MenuItem>
-                    </Link>
-                    {currentUser && currentUser.role === "ADMIN" &&(
-                      <Link href="/admin">
-                      <MenuItem onClick={toggleOpen}>
-                        Admin Dashboard
-                      </MenuItem>
-                    </Link>
-                    )}
-                    <Link href="/">
-                    <MenuItem
-                      onClick={() => {
-                        toggleOpen();
-                        signOut();
-                      }}
-                    >
-                      Se deconnecter
-                    </MenuItem>
-                    </Link>
-                  </div>
-                ) : (
-                  <div>
-                    <Link href="/login">
-                      <MenuItem onClick={toggleOpen}>
-                        Se connecter
-                      </MenuItem>
-                    </Link>
-                    <Link href="/register">
-                      <MenuItem onClick={toggleOpen}>
-                        S&apos;inscrire
-                      </MenuItem>
-                    </Link>
-                  </div>
+        {isOpen && (
+          <div
+            className="
+              absolute
+              rounded-lg 
+              shadow-lg
+              w-[200px]
+              bg-white
+              overflow-hidden
+              right-0
+              top-14
+              text-sm
+              flex
+              flex-col
+              cursor-pointer
+              animate-fadeIn
+            "
+          >
+            {currentUser ? (
+              <>
+                <Link href="/orders">
+                  <MenuItem onClick={handleCloseMenu}>Vos commandes</MenuItem>
+                </Link>
+                {currentUser.role === "ADMIN" && (
+                  <Link href="/admin">
+                    <MenuItem onClick={handleCloseMenu}>Admin Dashboard</MenuItem>
+                  </Link>
                 )}
-              </div>
+                <MenuItem
+                  onClick={() => {
+                    handleCloseMenu();
+                    signOut();
+                  }}
+                >
+                  Se déconnecter
+                </MenuItem>
+              </>
+            ) : (
+              <>
+                <Link href="/login">
+                  <MenuItem onClick={handleCloseMenu}>Se connecter</MenuItem>
+                </Link>
+                <Link href="/register">
+                  <MenuItem onClick={handleCloseMenu}>S'inscrire</MenuItem>
+                </Link>
+              </>
             )}
           </div>
-        </div>
+        )}
       </div>
-      {isOpen ? <BackDrop onClick={toggleOpen} /> : null}
+      {isOpen && <BackDrop onClick={handleCloseMenu} />}
     </>
   );
 };

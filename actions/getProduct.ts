@@ -3,22 +3,22 @@ import prisma from '@/libs/prismadb';
 export interface IProductParams {
     category?: string | null;
     searchTerm?: string | null;
+    page?: number;
+    limit?: number;
 }
 
-export default async function getProducts(params: IProductParams){
+export default async function getProducts(params: IProductParams) {
     try {
-        const {category, searchTerm} = params;
-        let searchString = searchTerm;
+        const { category, searchTerm, page = 1, limit = 12 } = params;
+        const searchString = searchTerm || '';
 
-        if(!searchTerm) {
-            searchString = ''
-        }
+        const query: any = {};
 
-        let query: any = {}
-
-        if(category) {
+        if (category) {
             query.category = category;
         }
+
+        const skip = (page - 1) * limit;
 
         const products = await prisma.product.findMany({
             where: {
@@ -27,29 +27,53 @@ export default async function getProducts(params: IProductParams){
                     {
                         name: {
                             contains: searchString,
-                            mode:'insensitive'
+                            mode: 'insensitive',
                         },
+                    },
+                    {
                         description: {
                             contains: searchString,
-                            mode:'insensitive'
-                        }
-                    }
-                ]
+                            mode: 'insensitive',
+                        },
+                    },
+                ],
             },
             include: {
                 reviews: {
                     include: {
-                        user: true
+                        user: true,
                     },
-                    orderBy: {
-                        createdDate: 'desc'
-                    }
-                }
-            }
-        })
-        return products
-    }
-    catch(error: any){
-        throw new Error(error)
+                },
+            },
+            skip,
+            take: limit,
+        });
+
+        const totalProducts = await prisma.product.count({
+            where: {
+                ...query,
+                OR: [
+                    {
+                        name: {
+                            contains: searchString,
+                            mode: 'insensitive',
+                        },
+                    },
+                    {
+                        description: {
+                            contains: searchString,
+                            mode: 'insensitive',
+                        },
+                    },
+                ],
+            },
+        });
+
+        return {
+            products,
+            totalProducts,
+        };
+    } catch (error: any) {
+        throw new Error(error);
     }
 }

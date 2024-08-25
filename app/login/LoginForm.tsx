@@ -37,7 +37,7 @@ const LoginForm: React.FC<LoginFormProps> = ({currentUser}) => {
             router.push('/cart');
             router.refresh();
         }
-    },[])
+    },[currentUser])
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         setIsloading(true);
@@ -92,6 +92,7 @@ const LoginForm: React.FC<LoginFormProps> = ({currentUser}) => {
         <Button
         label={isLoading? "Loading": "Se connecter"}
         onClick={handleSubmit(onSubmit)}
+        disabled={isLoading}
         />
         <p className="text-sm">Pas de compte ? 
         <Link 
