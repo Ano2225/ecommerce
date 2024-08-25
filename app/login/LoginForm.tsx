@@ -15,7 +15,6 @@ interface LoginFormProps {
     currentUser: SafeUser | null
 }
 
-
 const LoginForm: React.FC<LoginFormProps> = ({currentUser}) => {
 
     const [isLoading, setIsloading] =useState(false);
@@ -60,7 +59,6 @@ const LoginForm: React.FC<LoginFormProps> = ({currentUser}) => {
         })
     }
 
-
     if(currentUser){
         return <p className="text-center">Connecté . Redirection...</p>
     }
@@ -68,11 +66,12 @@ const LoginForm: React.FC<LoginFormProps> = ({currentUser}) => {
     return ( 
         <>
         <Heading  title="Se connecter"/>
-        <Button  outline
+        {/*<Button  outline
         label="Continuez avec Google"
         onClick={() => {signIn('google')}}
-        />
-        <hr className="bg-slate-300 w-full h-px"/>
+        /> 
+        <hr className="bg-slate-500 w-full h-px"/>
+        */}
         <Input id="email" 
         label="Email" 
         disabled={isLoading}
@@ -97,7 +96,7 @@ const LoginForm: React.FC<LoginFormProps> = ({currentUser}) => {
         <p className="text-sm">Pas de compte ? 
         <Link 
         href='/register'
-        className="underline"
+        className="underline mx-2"
         >
             S&apos;insrire
         </Link></p>

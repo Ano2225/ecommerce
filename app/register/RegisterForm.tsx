@@ -75,14 +75,16 @@ const RegisterForm: React.FC<RegisterFormProps> = ({currentUser}) => {
     return (
     <>
     <Heading title="S'inscrire sur Owen-Market"/>
-    <Button 
+    {/*<Button 
     outline
      label="S'inscrire avec Google"
      icon={AiOutlineGoogle}
      onClick={() => {signIn('google')}}
      
       />
+    
     <hr className="bg-slate-300 w-full h-px"/>
+      */}
     <Input id="name" 
     label="Nom" 
     disabled={isLoading}
@@ -115,7 +117,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({currentUser}) => {
         <p className="text-sm">Déjà un compte ? 
         <Link 
         href='/login'
-        className="underline"
+        className="underline mx-2"
         >
             Se connecter
         </Link></p>

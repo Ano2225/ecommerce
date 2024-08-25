@@ -23,6 +23,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
   const handleCloseMenu = useCallback(() => {
     setIsOpen(false);
   }, []);
+  
 
   // Close the menu if clicking outside of it
   useEffect(() => {
@@ -59,7 +60,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
             text-gray-700
             bg-white
           "
-        >
+        > 
           <Avatar src={currentUser?.image || '/defaultImage.png'} />
           <AiFillCaretDown className="text-gray-500" />
         </div>
