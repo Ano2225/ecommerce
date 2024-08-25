@@ -1,11 +1,11 @@
-'use client';
+'use client'; // Indique que la page doit être rendue uniquement côté client
 
+import { useSearchParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Container from './components/Container';
 import HomeBanner from './components/HomeBanner';
 import ProductCard from './components/products/ProductCard';
 import NullData from './components/NullData';
-import { useRouter, useSearchParams } from 'next/navigation';
 
 interface HomeProps {
   searchParams: Record<string, string>;
@@ -17,18 +17,15 @@ export default function Home({ searchParams }: HomeProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const itemsPerPage = 12;
-
+  
+  const params = useSearchParams(); 
   const router = useRouter();
-  const params = useSearchParams();
 
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
       try {
-        const category = params?.get('category') || searchParams?.category || '';
-        const searchTerm = params?.get('searchTerm') || searchParams?.searchTerm || '';
-
-        const response = await fetch(`/api/products?category=${category}&searchTerm=${searchTerm}&page=${currentPage}&limit=${itemsPerPage}`);
+        const response = await fetch(`/api/products?category=${params?.get('category') || ''}&searchTerm=${params?.get('searchTerm') || ''}&page=${currentPage}&limit=${itemsPerPage}`);
         const { products, totalProducts } = await response.json();
 
         setProducts(products);
@@ -41,14 +38,14 @@ export default function Home({ searchParams }: HomeProps) {
     };
 
     fetchProducts();
-  }, [searchParams, currentPage, params]);
+  }, [params, currentPage]);
 
   const totalPages = Math.ceil(totalProducts / itemsPerPage);
 
   const handlePageChange = (newPage: number) => {
     if (newPage > 0 && newPage <= totalPages) {
       setCurrentPage(newPage);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: 'smooth' }); 
     }
   };
 
