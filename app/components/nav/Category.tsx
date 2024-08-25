@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useRouter, useSearchParams } from "next/navigation";
 import queryString from "query-string";
 import { useCallback, useMemo } from "react";
@@ -15,27 +14,27 @@ const Category: React.FC<CategoryProps> = ({ label, icon: Icon, selected }) => {
     const params = useSearchParams();
 
     const updatedQuery = useMemo(() => {
-        if (!params) return {};
+        const currentQuery = queryString.parse(params?.toString() || "");
 
-        const currentQuery = queryString.parse(params.toString());
+        const page = 1;
+        const limit = currentQuery.limit || 12;
 
         if (label === "Tous") {
-            return {};
+            const { category, ...rest } = currentQuery;
+            return { ...rest, page, limit };
         }
 
-        return { ...currentQuery, category: label };
+        return { ...currentQuery, category: label, page, limit };
     }, [label, params]);
 
     const handleClick = useCallback(() => {
-        const url = queryString.stringifyUrl(
-            {
-                url: "/",
-                query: updatedQuery,
-            },
-            { skipNull: true }
-        );
+        const url = queryString.stringifyUrl({
+            url: "/",
+            query: updatedQuery,
+        }, { skipNull: true });
 
         router.push(url);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }, [updatedQuery, router]);
 
     return (

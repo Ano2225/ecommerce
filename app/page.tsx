@@ -5,6 +5,7 @@ import Container from './components/Container';
 import HomeBanner from './components/HomeBanner';
 import ProductCard from './components/products/ProductCard';
 import NullData from './components/NullData';
+import { useSearchParams } from "next/navigation";
 
 interface HomeProps {
   searchParams: Record<string, string>;
@@ -16,12 +17,17 @@ export default function Home({ searchParams }: HomeProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const itemsPerPage = 12;
+  const params = useSearchParams();
 
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
+      const page = params?.get('page') || 1;
+      const category = params?.get('category') || '';
+      const searchTerm = params?.get('searchTerm') || '';
+
       try {
-        const response = await fetch(`/api/products?category=${searchParams?.category || ''}&searchTerm=${searchParams?.searchTerm || ''}&page=${currentPage}&limit=${itemsPerPage}`);
+        const response = await fetch(`/api/products?category=${category}&searchTerm=${searchTerm}&page=${page}&limit=${itemsPerPage}`);
         const { products, totalProducts } = await response.json();
 
         setProducts(products);
@@ -34,14 +40,14 @@ export default function Home({ searchParams }: HomeProps) {
     };
 
     fetchProducts();
-  }, [searchParams, currentPage]);
+  }, [params]);
 
   const totalPages = Math.ceil(totalProducts / itemsPerPage);
 
   const handlePageChange = (newPage: number) => {
     if (newPage > 0 && newPage <= totalPages) {
       setCurrentPage(newPage);
-      window.scrollTo({ top: 0, behavior: 'smooth' }); 
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
