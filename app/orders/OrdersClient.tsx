@@ -46,8 +46,6 @@ const OrdersClient: React.FC<OrdersClientProps> = ({orders}) => {
     }
     
     const columns: GridColDef[] = [
-        { field: 'id', headerName: 'ID', width: 220 },
-        { field: 'customer', headerName: 'Nom du client', width: 130 },
         {
             field: 'amount',
             headerName: 'Prix(FCFA)',
@@ -59,16 +57,6 @@ const OrdersClient: React.FC<OrdersClientProps> = ({orders}) => {
                     </div>
                 );
             }
-        },
-        {
-          field:'adminDepositNumber',
-          headerName: 'Numero ayant recu le depot',
-          width: 245
-        },
-        {
-          field:'userDepositNumber',
-          headerName: 'Numero du depot',
-          width:180
         },
         {
           field:'userPhoneNumber',
@@ -162,7 +150,7 @@ const OrdersClient: React.FC<OrdersClientProps> = ({orders}) => {
   return (
    <div className='max-w-[1150px] m-auto text-xl'>
     <div className='mb-4 mt-8'>
-        <Heading  title='Mes commandes' center/>
+        <Heading  title='' center/>
     </div>
     <div style={{height:600, width: "100%" }}>
         <DataGrid
