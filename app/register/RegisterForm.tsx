@@ -121,7 +121,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({currentUser}) => {
         >
             Se connecter
         </Link></p>
-    </>
+    </> 
     
   )
 }
