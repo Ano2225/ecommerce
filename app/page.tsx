@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useEffect, useState } from 'react';
 import Container from './components/Container';
@@ -7,11 +7,7 @@ import ProductCard from './components/products/ProductCard';
 import NullData from './components/NullData';
 import { useRouter, useSearchParams } from 'next/navigation';
 
-interface HomeProps {
-  searchParams: Record<string, string>;
-}
-
-export default function Home({ searchParams }: HomeProps) {
+export default function Home() {
   const [products, setProducts] = useState<any[]>([]);
   const [totalProducts, setTotalProducts] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -25,8 +21,9 @@ export default function Home({ searchParams }: HomeProps) {
     const fetchProducts = async () => {
       setLoading(true);
       try {
-        const category = params?.get('category') || searchParams?.category || '';
-        const searchTerm = params?.get('searchTerm') || searchParams?.searchTerm || '';
+        // Récupérer les paramètres de catégorie et de recherche depuis l'URL
+        const category = params?.get('category') || '';
+        const searchTerm = params?.get('searchTerm') || '';
 
         const response = await fetch(`/api/products?category=${category}&searchTerm=${searchTerm}&page=${currentPage}&limit=${itemsPerPage}`);
         const { products, totalProducts } = await response.json();
@@ -41,7 +38,7 @@ export default function Home({ searchParams }: HomeProps) {
     };
 
     fetchProducts();
-  }, [searchParams, currentPage, params]);
+  }, [currentPage, params]);
 
   const totalPages = Math.ceil(totalProducts / itemsPerPage);
 
