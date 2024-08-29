@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import Container from './components/Container';
 import HomeBanner from './components/HomeBanner';
 import ProductCard from './components/products/ProductCard';
@@ -21,7 +21,6 @@ export default function Home() {
     const fetchProducts = async () => {
       setLoading(true);
       try {
-        // Récupérer les paramètres de catégorie et de recherche depuis l'URL
         const category = params?.get('category') || '';
         const searchTerm = params?.get('searchTerm') || '';
 
@@ -53,12 +52,8 @@ export default function Home() {
     return <div className="flex justify-center items-center h-screen">Chargement...</div>;
   }
 
-  if (products.length === 0) {
-    return <NullData title={"Ooops ! Pas d'article trouvés."} />;
-  }
-
   return (
-    <div>
+    <Suspense fallback={<div className="flex justify-center items-center h-screen">Chargement...</div>}>
       <Container>
         <div className="p-8">
           <HomeBanner />
@@ -92,6 +87,6 @@ export default function Home() {
           </button>
         </div>
       </Container>
-    </div>
+    </Suspense>
   );
 }
